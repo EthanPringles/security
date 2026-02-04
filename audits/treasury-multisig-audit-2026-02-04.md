@@ -50,10 +50,10 @@ Chaque critère est noté de 0 à 5 selon des barèmes précis définis par 1kx 
 | 17. Décodage calldata | 0/5 | **Élevé** | Paramètres contrats non vérifiés |
 | 18. Vérification Call/DelegateCall | 1/5 | **Élevé** | Connaissance basique mais pas de vérification systématique |
 | 19. Paramètres gas refund | 0/5 | **Élevé** | Jamais vérifiés (doivent être à zéro) |
-| 20. Plan d'urgence documenté | 0/5 | **Élevé** | Aucune procédure de compromission |
-| 21. Alertes monitoring | 0/5 | **Élevé** | Aucun monitoring automatique |
+| 20. Plan d'urgence + monitoring | 0/5 | **Élevé** | Aucune procédure de compromission ni monitoring |
 
-**Score étendu : 20/105 (19%) = RISQUE TRÈS ÉLEVÉ** ⚠️⚠️
+**Score final : 20/100 = 20% - RISQUE TRÈS ÉLEVÉ** ⚠️⚠️  
+*Combinaison 1kx Network (11 critères) + howtomultisig.com (9 critères) = 20 critères × 5 points*
 
 ---
 
@@ -360,9 +360,8 @@ Chaque critère est noté de 0 à 5 selon des barèmes précis définis par 1kx 
 ## 🔍 Métriques et suivi
 
 ### Objectifs 6 mois
-- **Score 1kx :** >35/55 (63%)
-- **Score étendu :** >60/105 (57%)  
-- **Zéro critère à 0/5** dans les 21 critères
+- **Score cible :** >60/100 (passage en Risque Moyen)
+- **Zéro critère à 0/5** dans les 20 critères
 - **Processus vérification :** 100% des transactions avec simulation
 - **Temps moyen validation :** <30 minutes
 - **Safe word :** établi et testé
@@ -375,7 +374,7 @@ Chaque critère est noté de 0 à 5 selon des barèmes précis définis par 1kx 
 
 ### Audit de suivi
 **Date :** Septembre 2026  
-**Objectif :** Score >40/55 (Risque Moyen)
+**Objectif :** Score >60/100 (Risque Moyen)
 
 ---
 
@@ -455,8 +454,8 @@ Processus: basique
 - Score : 19/55 (34.5%) - Risque Élevé
 - Focus : Malware et UI exploits
 
-**Version 2** - Audit étendu + howtomultisig.com (21 critères)  
-- Score étendu : 20/105 (19%) - Risque Très Élevé  
+**Version 2** - Audit complet 1kx + howtomultisig (20 critères)  
+- **Score final : 20/100 (20%) - Risque Très Élevé** ⚠️⚠️
 - Ajout : Emergency, OpSec signataires, vérification avancée
 
 Cette approche combinée offre la **couverture la plus complète** disponible pour l'audit de sécurité multisig.
