@@ -5,6 +5,21 @@
 **Safe :** Treasury (configuration 3/5)  
 **Score global :** 19/55 (34.5%) - **RISQUE ÉLEVÉ** ⚠️
 
+**🛠️ Outil d'audit :** [1kx Network Self-Assessment: Multisig OpSec](https://1kx.network/writing/self-assessment-multisig-opsec-defending-against-malware-and-ui-exploits)  
+*Guide officiel de défense contre malware et exploits UI*
+
+---
+
+## 🎯 Méthodologie
+
+Cet audit utilise le framework **1kx Network Self-Assessment** - référence industrie pour l'évaluation de sécurité multisig. Le guide couvre 11 critères essentiels de défense contre :
+- **Attaques malware** sur les appareils de signature
+- **Exploits UI** (manipulation d'interface utilisateur)
+
+Chaque critère est noté de 0 à 5 selon des barèmes précis définis par 1kx Network.
+
+📖 **Source :** https://1kx.network/writing/self-assessment-multisig-opsec-defending-against-malware-and-ui-exploits
+
 ---
 
 ## 📊 Résultats détaillés
@@ -237,7 +252,7 @@
 - [Safe Transaction Builder](https://help.safe.global/en/articles/234052-transaction-builder)
 
 ### Documentation
-- [1kx Network Audit Guide](https://1kx.network/writing/self-assessment-multisig-opsec-defending-against-malware-and-ui-exploits)
+- 🔥 **[1kx Network Self-Assessment Guide](https://1kx.network/writing/self-assessment-multisig-opsec-defending-against-malware-and-ui-exploits)** - Framework d'audit utilisé
 - [Safe Guards Documentation](https://docs.safe.global/advanced/smart-account-guards)
 - [Rekt.news](https://rekt.news/) pour les post-mortems d'attaques
 

@@ -2,6 +2,8 @@
 
 Ce repo centralise tous les audits, procédures et outils de sécurité pour les actifs crypto.
 
+**🛠️ Framework d'audit :** [1kx Network Self-Assessment: Multisig OpSec](https://1kx.network/writing/self-assessment-multisig-opsec-defending-against-malware-and-ui-exploits) - Standard industrie pour la sécurité multisig.
+
 ## 📁 Structure
 
 ```
@@ -15,7 +17,7 @@ security/
 ## 📋 Documents
 
 ### Audits
-- [Treasury Multisig Audit (2026-02-04)](treasury-multisig-audit-2026-02-04.md) - Audit complet Safe "Treasury"
+- [Treasury Multisig Audit (2026-02-04)](audits/treasury-multisig-audit-2026-02-04.md) - Audit complet Safe "Treasury" (Framework 1kx Network)
 
 ### Procédures (à créer)
 - [ ] Procédure vérification hors-bande
