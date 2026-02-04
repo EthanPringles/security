@@ -38,6 +38,23 @@ Chaque critère est noté de 0 à 5 selon des barèmes précis définis par 1kx 
 | 10. Sécurité physique | 3/5 | Moyen | Coffres à clés, pas de coffres-forts fixes |
 | 11. Formation signataires | 2/5 | Élevé | Connaissance des risques mais maîtrise limitée |
 
+### 📋 Critères complémentaires (howtomultisig.com)
+
+| Critère | Score | Risque | Commentaire |
+|---------|-------|--------|-------------|
+| 12. Anonymat des signataires | 0/5 | **Élevé** | Identités publiquement connues |
+| 13. Adresses dédiées multisig | 0/5 | **Élevé** | Adresses utilisées pour DeFi/NFTs |
+| 14. Diversité géographique | 1/5 | **Élevé** | Signataires concentrés géographiquement |
+| 15. Safe word offline | 0/5 | **Élevé** | Aucun mécanisme d'authentification d'urgence |
+| 16. Simulation transactions | 0/5 | **Élevé** | Pas de preview des effets avant signature |
+| 17. Décodage calldata | 0/5 | **Élevé** | Paramètres contrats non vérifiés |
+| 18. Vérification Call/DelegateCall | 1/5 | **Élevé** | Connaissance basique mais pas de vérification systématique |
+| 19. Paramètres gas refund | 0/5 | **Élevé** | Jamais vérifiés (doivent être à zéro) |
+| 20. Plan d'urgence documenté | 0/5 | **Élevé** | Aucune procédure de compromission |
+| 21. Alertes monitoring | 0/5 | **Élevé** | Aucun monitoring automatique |
+
+**Score étendu : 20/105 (19%) = RISQUE TRÈS ÉLEVÉ** ⚠️⚠️
+
 ---
 
 ## 🎯 Plan d'action détaillé
@@ -104,6 +121,92 @@ Chaque critère est noté de 0 à 5 selon des barèmes précis définis par 1kx 
 
 ---
 
+#### 3. Simulation et vérification avancée des transactions
+**Objectif :** Comprendre les effets réels avant signature
+
+**🚀 Mise en œuvre immédiate :**
+
+1. **Simulation obligatoire :**
+   ```
+   AVANT signature de TOUTE transaction contractuelle :
+   → Utiliser https://tenderly.co/simulator ou Hardhat/Foundry
+   → Prévisualiser les changements d'état 
+   → Vérifier les transferts, approvals, etc.
+   → Poster capture dans le canal avec les hashs
+   ```
+
+2. **Décodage calldata systématique :**
+   ```
+   Pour transactions vers contrats :
+   → Utiliser https://www.4byte.directory/ pour les function selectors
+   → Décoder TOUS les paramètres avec https://abi.ninja/
+   → Vérifier que les paramètres correspondent à l'intention
+   → Documenter dans le canal : "Function: transfer(address,uint256)"
+   ```
+
+3. **Vérification Operation Type :**
+   ```
+   RÈGLE CRITIQUE :
+   ✅ Operation: 0 (Call) = OK pour la plupart des transactions
+   🚨 Operation: 1 (DelegateCall) = DANGER EXTRÊME
+   
+   Si DelegateCall détecté :
+   → Vérifier que le target est un proxy connu et approuvé
+   → Double validation par 2 signataires minimum
+   → Documentation détaillée du pourquoi
+   ```
+
+4. **Paramètres gas refund à zéro :**
+   ```
+   VÉRIFIER systématiquement :
+   - safeTxGas: 0 ✓
+   - baseGas: 0 ✓  
+   - gasPrice: 0 ✓
+   - gasToken: 0x0000000000000000000000000000000000000000 ✓
+   - refundReceiver: 0x0000000000000000000000000000000000000000 ✓
+   
+   Si différent → investigation approfondie avant signature
+   ```
+
+**Impact :** Protection contre exploits contractuels sophistiqués
+
+---
+
+#### 4. Plan d'urgence et authentification
+**Objectif :** Réaction rapide en cas de compromission
+
+**🚀 Mise en œuvre immédiate :**
+
+1. **Safe word offline établi :**
+   ```
+   - Choisir une phrase/mot que seuls les vrais signataires connaissent
+   - Partagé UNIQUEMENT en personne physique, jamais par digital
+   - Utilisé pour authentification en cas de doute
+   - Renouvelé tous les 6 mois
+   ```
+
+2. **Procédure de compromission :**
+   ```
+   SI clé potentiellement compromise :
+   1. IMMÉDIATEMENT alerter dans canal Signal "COMPROMISSION SUSPECTÉE"
+   2. Poster le safe word pour authentification
+   3. Bloquer toute signature pendant enquête
+   4. Révoquer la clé si compromission confirmée
+   5. Rotation d'urgence des autres clés par précaution
+   ```
+
+3. **Contacts d'urgence ("Break-the-glass") :**
+   ```
+   Liste sécurisée contenant :
+   - Nom + téléphone + Signal de chaque signataire  
+   - Procédure révocation d'urgence
+   - Stockée chiffrée, accessible par au moins 2 personnes
+   ```
+
+**Impact :** Réduction drastique des dégâts en cas d'attaque
+
+---
+
 ### 🟡 IMPORTANTES (3-6 mois)
 
 #### 3. Ségrégation stricte préparation/signature
@@ -165,6 +268,56 @@ Chaque critère est noté de 0 à 5 selon des barèmes précis définis par 1kx 
 
 ---
 
+#### 5. OpSec avancé des signataires
+**Objectif :** Réduire les vecteurs d'attaque personnels
+
+**🔧 Plan détaillé :**
+
+1. **Anonymat des signataires :**
+   ```
+   RÈGLES STRICTES :
+   - Jamais révéler publiquement qui sont les signataires
+   - Pas de mention sur réseaux sociaux, Discord, Twitter
+   - Communications uniquement dans canaux privés chiffrés
+   - En cas de leak accidentel → rotation immédiate des clés
+   ```
+
+2. **Adresses dédiées exclusivement au multisig :**
+   ```
+   CHAQUE signataire doit :
+   - Générer 1 adresse UNIQUEMENT pour Treasury
+   - Jamais utiliser cette adresse pour :
+     * DeFi (Uniswap, Aave, etc.)
+     * NFTs  
+     * Autre multisig
+     * Transactions personnelles
+   - Historique on-chain propre = réduction fingerprinting
+   ```
+
+3. **Diversité géographique :**
+   ```
+   OBJECTIF : Éviter concentration géographique
+   - Idéalement : signataires sur 3+ continents
+   - Éviter events/conférences groupés
+   - Rotation si trop de concentration détectée
+   - Considérer timezone spread pour disponibilité
+   ```
+
+4. **Mise en place monitoring basique :**
+   ```
+   ALERTES ESSENTIELLES à implémenter :
+   - Changement configuration Safe (seuil, signataires)  
+   - Nouvelle transaction proposée
+   - Transaction exécutée (succès/échec)
+   - Activité suspecte sur adresses signataires
+   
+   Outils : Tenderly alerts, OZ Defender, custom webhooks
+   ```
+
+**Impact :** Réduction significative surface d'attaque personnelle
+
+---
+
 ### 🟢 LONG TERME (6-12 mois)
 
 #### 5. Appareils dédiés signature critique
@@ -207,10 +360,13 @@ Chaque critère est noté de 0 à 5 selon des barèmes précis définis par 1kx 
 ## 🔍 Métriques et suivi
 
 ### Objectifs 6 mois
-- **Score global :** >35/55 (63%)
-- **Zéro critère à 0/5**
-- **Processus vérification :** 100% des transactions
+- **Score 1kx :** >35/55 (63%)
+- **Score étendu :** >60/105 (57%)  
+- **Zéro critère à 0/5** dans les 21 critères
+- **Processus vérification :** 100% des transactions avec simulation
 - **Temps moyen validation :** <30 minutes
+- **Safe word :** établi et testé
+- **Plan d'urgence :** documenté et connu de tous
 
 ### KPIs mensuels
 - Transactions avec vérification hors-bande : _%
@@ -246,10 +402,24 @@ Chaque critère est noté de 0 à 5 selon des barèmes précis définis par 1kx 
 ## 🛠️ Ressources techniques
 
 ### Outils recommandés
+
+**Vérification de base :**
 - [OpenZeppelin Safe Utils](https://safeutils.openzeppelin.com/)
 - [safe-tx-hashes-util](https://github.com/pcaversaccio/safe-tx-hashes-util)
-- [Zodiac Delay Modifier](https://github.com/gnosispm/zodiac-modifier-delay)
 - [Safe Transaction Builder](https://help.safe.global/en/articles/234052-transaction-builder)
+
+**Simulation et analyse :**
+- [Tenderly Simulator](https://tenderly.co/simulator) - preview effets transactions
+- [4byte Directory](https://www.4byte.directory/) - décodage function selectors  
+- [ABI Ninja](https://abi.ninja/) - décodage paramètres contrats
+- [Etherscan/Polygonscan](https://etherscan.io) - vérification historique
+
+**Guards et sécurité :**
+- [Zodiac Delay Modifier](https://github.com/gnosispm/zodiac-modifier-delay)
+- [OpenZeppelin Defender](https://defender.openzeppelin.com/) - monitoring alerts
+
+**Communication sécurisée :**
+- [Signal](https://signal.org/) avec PIN et messages éphémères
 
 ### Documentation
 - 🔥 **[1kx Network Self-Assessment Guide](https://1kx.network/writing/self-assessment-multisig-opsec-defending-against-malware-and-ui-exploits)** - Framework d'audit utilisé
@@ -279,5 +449,19 @@ Processus: basique
 
 ---
 
+## 📈 Évolution de l'audit
+
+**Version 1** - Audit de base 1kx Network (11 critères)
+- Score : 19/55 (34.5%) - Risque Élevé
+- Focus : Malware et UI exploits
+
+**Version 2** - Audit étendu + howtomultisig.com (21 critères)  
+- Score étendu : 20/105 (19%) - Risque Très Élevé  
+- Ajout : Emergency, OpSec signataires, vérification avancée
+
+Cette approche combinée offre la **couverture la plus complète** disponible pour l'audit de sécurité multisig.
+
+---
+
 *🦡 Document généré le 4 février 2026 par Bold Badger*  
-*Basé sur l'audit 1kx Network Self-Assessment*
+*Basé sur l'audit 1kx Network Self-Assessment + howtomultisig.com best practices*
